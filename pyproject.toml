@@ -1,0 +1,30 @@
+[build-system]
+requires = ["poetry >= 0.12"]
+build-backend = "poetry.masonry.api"
+
+[tool.poetry]
+name = "dataware-tools-api-helper"
+version = "0.1.0"
+description = "API Helper for dataware-tools"
+license = "Apache-2.0"
+authors = [
+    "Daiki Hayashi <hayashi.daiki@hdwlab.co.jp>"
+]
+readme = 'README.md'
+repository = "https://github.com/dataware-tools/api-helper-python.git"
+homepage = "https://github.com/dataware-tools/api-helper-python"
+keywords = ['helper', 'dataware', 'api']
+classifiers=[
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+[tool.poetry.dependencies]
+python = ">=3.6.1"
+Flask = ">=1.1.2"
+jaeger-client = "^3.11.0"
+opentracing = "^1.2.2"
+opentracing-instrumentation = "^2.4.3"

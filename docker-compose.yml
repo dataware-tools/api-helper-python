@@ -1,0 +1,21 @@
+version: '3'
+services:
+    app:
+        build: .
+        image: app:latest
+        container_name: app
+        environment:
+            APP_PORT: 8080
+            AUTH0_CALLBACK_URL: http://localhost:8080/callback
+            AUTH0_LOGOUT_URL: http://localhost:8080/
+            AUTH0_CLIENT_ID:
+            AUTH0_CLIENT_SECRET:
+            AUTH0_DOMAIN:
+            AUTH0_AUDIENCE:
+        volumes:
+            - .:/opt/app:rw
+        ports:
+            - 8080:8080
+        working_dir: /opt/app
+        command: bash -c "pip install authlib && python test.py"
+        tty: true

@@ -15,6 +15,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+import base64
+import json
 from flask import session
 from flask import _request_ctx_stack as stack
 from jaeger_client import Tracer, ConstSampler
@@ -136,3 +138,21 @@ def get_forward_headers(request):
             # print "incoming: "+ihdr+":"+val
 
     return headers
+
+
+def get_jwt_payload_from_request(request: any):
+    """Get JWT payload.
+    Args:
+        request: request object
+
+    Returns:
+        (dict): payload in JWT
+
+    """
+    user_info = {}
+    access_token = request.headers.get('Authorization', ' ').split(' ')[1]
+    if len(access_token) > 0:
+        b64_string = access_token.split('.')[1]
+        b64_string += "=" * ((4 - len(b64_string) % 4) % 4)
+        user_info = json.loads(base64.b64decode(b64_string))
+    return user_info

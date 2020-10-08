@@ -25,7 +25,11 @@ from jaeger_client.codecs import B3Codec
 from opentracing.ext import tags
 from opentracing.propagation import Format
 from opentracing_instrumentation.request_context import get_current_span, span_in_context
+import os
+import urllib.request
 
+DEFAULT_API_CATALOG = 'https://raw.githubusercontent.com/dataware-tools/catalog/master/api.json'
+DEFAULT_APP_CATALOG = 'https://raw.githubusercontent.com/dataware-tools/catalog/master/app.json'
 
 # A note on distributed tracing:
 #
@@ -156,3 +160,35 @@ def get_jwt_payload_from_request(request: any):
         b64_string += "=" * ((4 - len(b64_string) % 4) % 4)
         user_info = json.loads(base64.b64decode(b64_string))
     return user_info
+
+
+def get_catalogs(use_default=False):
+    """Get API/APP catalog.
+
+    Args:
+        use_default (bool): if True, use the default catalog
+
+    Returns:
+        (dict): a dict containing keys `api` and `app`
+
+    """
+    def _get(url: str):
+        if url.startswith('http'):
+            with urllib.request.urlopen(url) as f:
+                return json.loads(f.read().decode())
+        else:
+            with open(url, 'r') as f:
+                return json.load(f)
+
+    api_catalog = DEFAULT_API_CATALOG if use_default else os.environ.get('API_CATALOG', DEFAULT_API_CATALOG)
+    app_catalog = DEFAULT_APP_CATALOG if use_default else os.environ.get('APP_CATALOG', DEFAULT_APP_CATALOG)
+
+    try:
+        return {
+            'api': _get(api_catalog),
+            'app': _get(app_catalog)
+        }
+    except IOError:
+        return get_catalogs(use_default=True)
+    except Exception as e:
+        raise e

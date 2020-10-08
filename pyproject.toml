@@ -28,3 +28,7 @@ Flask = ">=1.1.2"
 jaeger-client = "^3.11.0"
 opentracing = "^1.2.2"
 opentracing-instrumentation = "^2.4.3"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.1.1"
+flake8 = "^3.8.4"

@@ -153,14 +153,44 @@ def get_jwt_payload_from_request(request: any):
         (dict): payload in JWT
 
     """
-    user_info = {}
     if isinstance(request, dict):
         try:
-            access_token = request['headers']['Authorization'].split(' ')[1]
+            authorization = request['headers']['Authorization']
         except (KeyError, IndexError):
-            access_token = ''
+            authorization = ''
     else:
-        access_token = request.headers.get('Authorization', ' ').split(' ')[1]
+        authorization = request.headers.get('Authorization', ' ')
+    return get_jwt_payload_from_authorization(authorization)
+
+
+def get_jwt_payload_from_authorization(authorization: str):
+    """Get JWT payload from 'Authorization' value in request headers.
+
+    Args:
+        authorization (str): authorization value
+
+    Returns:
+        (dict): payload in JWT
+
+    """
+    try:
+        access_token = authorization.split(' ')[1]
+    except (KeyError, IndexError):
+        access_token = ''
+    return decode_access_token(access_token)
+
+
+def decode_access_token(access_token: str):
+    """Decode JWT token.
+
+    Args:
+        access_token (str): token
+
+    Returns:
+        (dict): payload in JWT
+
+    """
+    user_info = {}
     if len(access_token) > 0:
         b64_string = access_token.split('.')[1]
         b64_string += "=" * ((4 - len(b64_string) % 4) % 4)

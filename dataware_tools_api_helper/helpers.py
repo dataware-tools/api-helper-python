@@ -154,7 +154,13 @@ def get_jwt_payload_from_request(request: any):
 
     """
     user_info = {}
-    access_token = request.headers.get('Authorization', ' ').split(' ')[1]
+    if isinstance(request, dict):
+        try:
+            access_token = request['headers']['Authorization'].split(' ')[1]
+        except (KeyError, IndexError):
+            access_token = ''
+    else:
+        access_token = request.headers.get('Authorization', ' ').split(' ')[1]
     if len(access_token) > 0:
         b64_string = access_token.split('.')[1]
         b64_string += "=" * ((4 - len(b64_string) % 4) % 4)

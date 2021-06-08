@@ -1,22 +1,14 @@
 #!/usr/bin/python
 #
-# Copyright 2020 Human Dataware Lab. Co. Ltd.
-# Copyright 2017 Istio Authors
+# Copyright 2021 Human Dataware Lab. Co. Ltd.
 #
-#   Licensed under the Apache License, Version 2.0 (the "License");
-#   you may not use this file except in compliance with the License.
-#   You may obtain a copy of the License at
-#
-#       http://www.apache.org/licenses/LICENSE-2.0
-#
-#   Unless required by applicable law or agreed to in writing, software
-#   distributed under the License is distributed on an "AS IS" BASIS,
-#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#   See the License for the specific language governing permissions and
-#   limitations under the License.
 
 import base64
 import json
+import os
+import urllib.request
+
+from deprecated import deprecated
 from flask import session
 from flask import _request_ctx_stack as stack
 from jaeger_client import Tracer, ConstSampler
@@ -25,8 +17,6 @@ from jaeger_client.codecs import B3Codec
 from opentracing.ext import tags
 from opentracing.propagation import Format
 from opentracing_instrumentation.request_context import get_current_span, span_in_context
-import os
-import urllib.request
 
 DEFAULT_API_CATALOG = 'https://raw.githubusercontent.com/dataware-tools/catalog/master/api.json'
 DEFAULT_APP_CATALOG = 'https://raw.githubusercontent.com/dataware-tools/catalog/master/app.json'
@@ -198,6 +188,7 @@ def decode_access_token(access_token: str):
     return user_info
 
 
+@deprecated
 def get_catalogs(use_default=False):
     """Get API/APP catalog.
 

@@ -76,7 +76,7 @@ def trace():
                 span = tracer.start_span(
                     operation_name='op', child_of=span_ctx, tags=rpc_tag
                 )
-            except Exception as e:
+            except Exception:
                 # We failed to create a context, possibly due to no
                 # incoming x-b3-*** headers. Start a fresh span.
                 # Note: This is a fallback only, and will create fresh headers,

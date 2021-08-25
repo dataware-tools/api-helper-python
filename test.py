@@ -72,7 +72,6 @@ auth0 = oauth.register(
 @trace()
 def index():
     """Index page."""
-    headers = get_forward_headers(request)
     user = session.get('user', '')
     return 'User: {0}'.format(user)
 

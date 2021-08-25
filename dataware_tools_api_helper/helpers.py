@@ -6,6 +6,7 @@
 import base64
 import json
 import os
+import re
 import urllib.request
 
 from deprecated import deprecated
@@ -186,6 +187,40 @@ def decode_access_token(access_token: str):
         b64_string += "=" * ((4 - len(b64_string) % 4) % 4)
         user_info = json.loads(base64.b64decode(b64_string))
     return user_info
+
+
+def escape_string(data: str, kind: str = None):
+    """Escape string
+
+    Args:
+        data (str or None): input string
+        kind (str): 'filtering', 'id'
+
+    Returns:
+        (str or None): escaped string
+
+    """
+    if data is None:
+        return data
+
+    escaped = data
+
+    if kind is None:
+        escaped = re.sub('[^a-zA-Z0-9:;.,_=<>" /~!@#$%^&()+-]', '', escaped)
+    elif kind == 'filtering':
+        escaped = re.sub('[^a-zA-Z0-9:;.,_=<>" /~!@#$%^&()+-]', '', escaped)
+    elif kind == 'id':
+        escaped = re.sub('[^a-zA-Z0-9_-]', '', escaped)
+    elif kind == 'key':
+        escaped = re.sub('[^a-zA-Z0-9_=<>/()@-]', '', escaped)
+    elif kind == 'path':
+        escaped = re.sub('[^a-zA-Z0-9:;.,_=<>/~!@#$%^&()+-]', '', escaped)
+    elif kind == 'uuid':
+        escaped = re.sub('[^a-zA-Z0-9_-]', '', escaped)
+    else:
+        pass
+
+    return escaped
 
 
 @deprecated

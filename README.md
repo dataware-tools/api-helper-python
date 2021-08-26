@@ -11,6 +11,21 @@ dataware-tools-api-helper = { git = "https://github.com/dataware-tools/api-helpe
 ```
 
 
+## Develop
+
+### Setup
+
+```sh
+poetry install
+```
+
+### Run Tests
+
+```sh
+poetry run tox
+```
+
+
 ## License
 
 Copyright 2017 Istio Authors  

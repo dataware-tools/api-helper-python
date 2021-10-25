@@ -205,10 +205,19 @@ def escape_string(data: str, kind: str = None):
 
     escaped = data
 
+    japanese_ranges = {
+        'hiragana': '\u3041-\u309F',
+        'katakana': '\u30A1-\u30FF',
+        'katakana_hankaku': '\uFF66-\uFF9F',
+        'kanji': '\u2E80-\u2FDF\u3005-\u3007\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF\U00020000-\U0002EBEF',
+        'kigou': '\u3000-\u303F',
+    }
+    japanese_range = ''.join(japanese_ranges.values())
+
     if kind is None:
-        escaped = re.sub('[^a-zA-Z0-9:;.,_=<>" /~!@#$%^&()+-]', '', escaped)
+        escaped = re.sub(f'[^a-zA-Z0-9{japanese_range}:;.,_=<>" /~!@#$%^&()+-]', '', escaped)
     elif kind == 'filtering':
-        escaped = re.sub('[^a-zA-Z0-9:;.,_=<>" /~!@#$%^&()+-]', '', escaped)
+        escaped = re.sub(f'[^a-zA-Z0-9{japanese_range}:;.,_=<>" /~!@#$%^&()+-]', '', escaped)
     elif kind == 'id':
         escaped = re.sub('[^a-zA-Z0-9_-]', '', escaped)
     elif kind == 'key':

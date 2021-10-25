@@ -10,3 +10,4 @@ def test_escape_string():
     assert escape_string('/rosbag/topic@#$%', kind='key') == '/rosbag/topic@'
     assert escape_string('/path/to/file.ext', kind='path') == '/path/to/file.ext'
     assert escape_string('38123[[F9I{)(UFOIU#Y&(!', kind='uuid') == '38123F9IUFOIUY'
+    assert escape_string('ひらがな・カタカナ・漢字・【】', kind='filtering') == 'ひらがな・カタカナ・漢字・【】'

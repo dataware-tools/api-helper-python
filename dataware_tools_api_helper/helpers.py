@@ -223,7 +223,7 @@ def escape_string(data: str, kind: str = None):
     elif kind == 'key':
         escaped = re.sub('[^a-zA-Z0-9_=<>/()@-]', '', escaped)
     elif kind == 'path':
-        escaped = re.sub('[^a-zA-Z0-9:;.,_=<>/~!@#$%^&()+-]', '', escaped)
+        escaped = re.sub(f'[^a-zA-Z0-9{japanese_range}:;.,_=<>/~!@#$%^&()+-]', '', escaped)
     elif kind == 'uuid':
         escaped = re.sub('[^a-zA-Z0-9_-]', '', escaped)
     else:

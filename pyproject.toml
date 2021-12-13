@@ -24,9 +24,9 @@ classifiers=[
 
 [tool.poetry.dependencies]
 python = ">=3.7,<4"
-Deprecated = "^1.2.12"
-requests = "^2.26.0"
-pydtk = "^0.2.1"
+Deprecated = "*"
+requests = "*"
+pydtk = "*"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.9.2"

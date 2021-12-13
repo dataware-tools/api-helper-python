@@ -24,10 +24,3 @@ poetry install
 ```sh
 poetry run tox
 ```
-
-
-## License
-
-Copyright 2017 Istio Authors  
-Released under the MIT license  
-https://github.com/istio/istio/blob/1.10.0/samples/bookinfo/src/productpage/productpage.py

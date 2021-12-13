@@ -17,5 +17,5 @@ services:
         ports:
             - 8080:8080
         working_dir: /opt/app
-        command: bash -c "pip install authlib && python test.py"
+        command: bash
         tty: true

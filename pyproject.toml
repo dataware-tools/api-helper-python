@@ -24,6 +24,7 @@ classifiers=[
 
 [tool.poetry.dependencies]
 python = ">=3.7,<4"
+flask = "*"
 Deprecated = "*"
 requests = "*"
 pydtk = "*"
